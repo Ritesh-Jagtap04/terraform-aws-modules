@@ -1,6 +1,6 @@
-# The VPC and subnets are vended - looked up here, never declared.
+# The VPC and subnets are vended by the account network team — looked up by tag, never declared here.
 
-# tflint-ignore: terraform_unused_declarations
+# Looks up the account-owned VPC by its Name tag.
 data "aws_vpc" "this" {
   filter {
     name   = "tag:Name"
@@ -8,8 +8,8 @@ data "aws_vpc" "this" {
   }
 }
 
-# TGW-routable Endpoints tier.
-# tflint-ignore: terraform_unused_declarations
+# TGW-routable Endpoints tier — dedicated subnet for interface VPC endpoints.
+# Keeping endpoints in their own subnet tier isolates endpoint ENIs from application workloads.
 data "aws_subnets" "endpoints" {
   filter {
     name   = "tag:Tier"
